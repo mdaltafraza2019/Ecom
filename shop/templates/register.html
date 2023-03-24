@@ -1,0 +1,10 @@
+{% extends 'base.html'%}
+{%load crispy_forms_tags%}
+{%block title%}<title>Register</title>{%endblock%}
+{%block body%}
+<form action="" method="post" class="form-control mx-auto">
+    {%csrf_token%}
+    {{form|crispy}}
+    <input type="submit" value="submit">
+</form>
+{%endblock%}

@@ -1,0 +1,115 @@
+{%extends 'base.html'%}
+{%block title%}<title>Ecom | Cart</title>{%endblock%}
+
+{%block body%}
+<div class="container">
+
+    <h3 class=" text-center m-2 p-1">My Cart
+        {% if order.0.items.count %}
+        ({{ order.0.items.count }})
+    {% endif %}
+    </h3>
+    <div class="row">
+        <div class="col-lg-9 col-md-6 col-12">
+
+            
+            {%for i in order.0.items.all%}
+            
+
+            <div class="card mb-2">
+                <div class="row mb-2">
+                    <div class="col-lg-3 col-md-4 col-4 mb-2 ">
+                        <img src="{{i.item.image.url}}" height="100px" width="100px" style="object-fit: contain;"
+                            alt="">
+
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-5 ">
+                        <h4 class="m-0 ">{{i.item.name}}</h4>
+                        <h5 class="small m-0">{{i.item.category}}</h5>
+                        <a href="{%url 'removefromcart' i.item.slug%}" class="btn bg-danger text-light">-</a>
+                        {{i.qty}}
+                        <a href="{%url 'addtocart' i.item.slug%}" class="btn bg-success text-light">+</a>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-6 mb-2 ">
+                        <h6>price</h6>
+                        <h6 class="align-baseline align-items-center fw-medium">₹-<del class="text-danger">{{i.get_price}}</del> <span class="text-success ">{{i.pay}}/-</span>
+                        </h6>
+                        <h6>discount: ₹:{{i.get_discount_price}} <span class="bg-success text-light">{{i.item.discount_price}}%</span></h6>
+
+                    </div>
+                    <div class="col-lg-2 ">
+                        <a href="{%url 'deltefromcart' i.item.id%}" class="btn align-baseline mt-5 bg-danger text-light">Delete</a>
+                    </div>
+
+                </div>
+            </div>
+
+            {%endfor%}
+            </table>
+        </div>
+        <div class="col-lg-3 colg-md-6-col-12 ">
+
+            <h4 class="border-bottom"> Biiling Details</h4>
+
+
+            <table class="table table-striped table-responsive table-hover ">
+                <tr>
+                    <th>Total MRP</th>
+                    <td>{{order.0.get_total_amount}}</td>
+                </tr>
+                <tr>
+                    <th>{{Order.0.get_total_discount}}</td>
+                </tr>
+                <tr>
+                    <th>TAX (GST-18%)</th>
+                    <td>{{order.0.gst}}</td>
+                </tr>
+                <tr class="bg-success text-light">
+                    <th>Coupon</th>
+                
+                {%if order.0.coupon%}
+                    <td>code:{{order.0.coupon.code}} <span><a href="{%url 'removecoupon'%}"
+                        class="text-bg-danger">remove</a></span></td>
+                    
+                    <tr class="bg-warning text-light">
+                      <td >
+                      coupon discount
+                      <td >₹{{order.0.coupon.amount}}</td>
+                      </td>
+                   </tr>
+                {%endif%}
+                </tr>
+                <tr class="bg-dark-subtle">
+                    <th>Total Payble </th>
+                    
+                    
+                    {%if order.0.coupon.amount%}
+                    <td>{{order.0.total_payble}}</td>
+                    {%else%}
+                    <td>{{order.0.total}}</td>
+                    {%endif%}
+                    
+                    
+                </tr>
+            </table>
+
+            {%if not order.0.coupon%}
+            <div class="d-flex bg-warning justify-content-center ">
+                <form action="{%url 'addcoupon'%}" method="post" class="bg-warning">
+                    {%csrf_token%}
+                    <input type="text" placeholder='enter code' name="code" id="">
+                    <input type="submit" value="go">
+
+                </form>
+            </div>
+            {%endif%}
+
+            <div class="d-flex  flex-column gap-2">
+                <a href="" class="btn mt-2 bg-success">Go Back</a>
+                <a href="{%url 'chekout'%}" class="btn  mt-2 bg-danger">Chekout</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{%endblock%}

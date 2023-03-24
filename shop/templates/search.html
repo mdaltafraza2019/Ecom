@@ -1,0 +1,28 @@
+{% extends 'base.html'%}
+{%block title%}<title>Eshop | search</title> {%endblock%}
+{%block body %}
+<div class="container">
+    <div class="row">
+      {%for product in product%}
+      <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+  
+        <div class="card  mt-2" style="width: 18rem; height: 500px;">
+          <a href="{%url 'single' product.id%}"><img src="{{product.image.url}}" height="250px" class="card-img-top"
+              alt="..."></a>
+          <div class="card-body ">
+            <h5 class="card-title">{{product.brand}}-{{product.name}}</h5>
+            <p class="card-text">{{product.desc}}</p>
+            <p class="card-text">Discout-{{product.discount_price}}%</p>
+            <p class="card-text 5rem">₹<strike>{{product.price}}</strike> <span class="text-success fw-bolder">{{ product.price_discount}}/-</span></p>
+            <div class=" jusify-content-between">
+  
+              <a href="{%url 'single' product.id%}" class="btn btn-success">Buy now</a>
+              <a href="" class="btn btn-danger">Add to cart</a>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+      {%endfor%}
+    </div>
+{%endblock%}

@@ -1,0 +1,106 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block title%}<title>single</title>{%endblock%}
+{%block body%}
+<div class="row">
+
+    <div class="col-lg-4 col-md-4 col-12">
+
+
+        <img src="{{product.image.url}}" width="400px" height="400px"  alt="">
+
+        {%if product.image1%}
+         <img src="{{product.image1.url}}" height='100px'class="border border-dark m-2" width="100px" alt="">
+           {%if product.image2%}
+           <img src="{{product.image2.url}}" height='100px'class="border border-dark m-2" width="100px" alt="">
+           {%endif%}
+           {%if product.image3%}
+           <img src="{{product.image3.url}}" height='100px' class="border border-dark m-2" width="100px" alt="">
+           {%endif%}
+          {%else%}
+
+           <h2>No preview avialable</h2>
+        {%endif%}
+
+
+
+
+    </div>
+    <div class="col-lg-6 col-md-6 col-12">
+        <table class="table table-responsive table-striped border border-dark">
+            <h2>full details </h2>
+            <tr>
+                <th>product</th>
+                <td> {{product.name}}
+                </td>
+            </tr>
+            <tr>
+                <th>Category</th>
+                <td> {{product.category}}
+
+                </td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <p>{{product.decs}}</p>
+
+                </td>
+            </tr>
+            <tr>
+                <th>Brand</th>
+                <td> {{product.brand}}
+
+                </td>
+            </tr>
+            <tr>
+                <th>Discount</th>
+                <td>Discout-{{product.discount_price}}%
+
+
+                </td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td> ₹<strike>{{product.price}}</strike>
+
+                </td>
+            </tr>
+
+        </table>
+        <div class=" jusify-content-between">
+
+            <a href="{%url 'single' product.id%}" class="btn btn-success">Buy now</a>
+            <a href="{%url 'addtocart' product.slug%}" class="btn btn-danger">Add to cart</a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    
+    <h2 class="bg-danger text-center p-1 m-1">related electronics</h2>
+    {%for i in cat%}
+    <div class="col-lg-3 col-md-4 col-sm-6 col-12 ">
+      
+      <div class="card  " style="width: 18rem; height: 500px;">
+        <a href="{%url 'single' product.id%}"><img src="{{i.product.image.url}}" height="250px" class="card-img-top "
+            alt="..."></a>
+        <div class="card-body ">
+          <h5 class="card-title ">{{i.product.brand}}-{{product.name}}</h5>
+          <p class="card-text">{{product.desc}}</p>
+          <p class="card-text">Discout-{{product.discount_price}}%</p>
+          <p class="card-text 5rem">₹<strike>{{product.price}}</strike> {{product.final_price}}</p>
+          <div class=" jusify-content-between">
+
+            <a href="{%url 'single' product.id%}" class="btn btn-success">Buy now</a>
+            <a href="" class="btn btn-danger">Add to cart</a>
+          </div>
+        </div>
+        {%endfor%}
+      </div>
+
+    </div>
+   
+  </div>
+</div>
+
+{%endblock%}

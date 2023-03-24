@@ -1,0 +1,58 @@
+{%extends 'base.html'%}
+{%load static%}
+{%load crispy_forms_tags%}
+{%block title%}<title>Ecom | Cart</title>{%endblock%}
+
+{%block body%}
+
+</style>
+<div class="container">
+    <div class="row ">
+        <div class="col-9 align-items-center">
+            <h2>Checkout your Order </h2>
+            <div class="card">
+                <div class="card-header">Enter Address Details</div>
+                <div class="card-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        
+                        <input type="submit" class="btn btn-success w-50">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-12">
+            <h2>saved address</h2>
+            <div class="d-flex flex-column">
+                <form action="{%url 'chekoutwith' %}" method="post">
+                    {%csrf_token%}
+                    {%for i in address%}
+                    <label class="radio_body w-100">
+                        <div class="card w-100 mb-3">
+                            <input onChange="this.form.submit()" type="radio" name="saved_address" value="{{ i.id }}" class="card_radio">
+                            <div class="card-body">
+                                <h4>Name-{{i.name}}</h4>
+                                <span>contact-{{i.alt_contact}}</span>
+                                <p>street-{{i.street}}</p>
+                                <p>city-{{i.city}}</p>
+                                <p>landmark-{{i.landmark}}</p>
+                                <p>pincode-{{i.pincode}}</p>
+                                <div class="d-flex justify-content-between">
+                                    <span class="badge bg-danger">{{i.get_type_display}}</span>
+                                    {%if i.isDefault%}
+                                    <span class="badge bg-success">Defalult</span>
+                                    {%endif%}
+                                </div>
+                            </div>
+
+                        </div>
+                    </label>
+                    {%endfor%}
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+{%endblock%}
